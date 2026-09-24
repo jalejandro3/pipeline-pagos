@@ -1,8 +1,41 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/pipeline-pagos/src",
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/pipeline-pagos/tsconfig.app.json"
+  },
+  "monorepo": true,
+  "root": "apps/pipeline-pagos",
+  "projects": {
+    "bff": {
+      "type": "application",
+      "root": "apps/bff",
+      "entryFile": "main",
+      "sourceRoot": "apps/bff/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/bff/tsconfig.app.json"
+      }
+    },
+    "core-api": {
+      "type": "application",
+      "root": "apps/core-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/core-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/core-api/tsconfig.app.json"
+      }
+    },
+    "pipeline-pagos": {
+      "type": "application",
+      "root": "apps/pipeline-pagos",
+      "entryFile": "main",
+      "sourceRoot": "apps/pipeline-pagos/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/pipeline-pagos/tsconfig.app.json"
+      }
+    }
   }
 }
