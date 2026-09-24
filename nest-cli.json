@@ -27,15 +27,6 @@
       "compilerOptions": {
         "tsConfigPath": "apps/core-api/tsconfig.app.json"
       }
-    },
-    "pipeline-pagos": {
-      "type": "application",
-      "root": "apps/pipeline-pagos",
-      "entryFile": "main",
-      "sourceRoot": "apps/pipeline-pagos/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/pipeline-pagos/tsconfig.app.json"
-      }
     }
   }
 }

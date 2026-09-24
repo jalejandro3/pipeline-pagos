@@ -3,6 +3,6 @@ import { CoreApiModule } from './core-api.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(CoreApiModule);
-  await app.listen(process.env.port ?? 3000);
+  await app.listen(process.env.port ?? 4000);
 }
 bootstrap();
