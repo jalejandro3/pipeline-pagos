@@ -3,6 +3,11 @@ import { Pago } from '../../domain/pago.entity';
 import { PagoStatus } from '../../domain/pago-status';
 import { PagoMapper } from './pago.mapper';
 import { PagoOrmEntity } from './pago.orm-entity';
+import {
+  PagoIdInvalidoError,
+  PagoAmountInvalidoError,
+  PagoNegativeAmountError,
+} from '../../domain/errors/pago.errors';
 
 describe('PagoMapper', () => {
   describe('toPersistence', () => {
@@ -56,7 +61,7 @@ describe('PagoMapper', () => {
         const pagoOrmEntity = crearOrmEntity({ amount: 'abc' });
 
         expect(() => PagoMapper.toDomain(pagoOrmEntity)).toThrow(
-          'El monto debe ser un número válido',
+          PagoAmountInvalidoError,
         );
       });
 
@@ -64,7 +69,7 @@ describe('PagoMapper', () => {
         const pagoOrmEntity = crearOrmEntity({ amount: '0.0000' });
 
         expect(() => PagoMapper.toDomain(pagoOrmEntity)).toThrow(
-          'El monto no puede ser menor o igual a cero',
+          PagoNegativeAmountError,
         );
       });
 
@@ -72,7 +77,7 @@ describe('PagoMapper', () => {
         const pagoOrmEntity = crearOrmEntity({ id: 'id-corrupto' });
 
         expect(() => PagoMapper.toDomain(pagoOrmEntity)).toThrow(
-          'UUID v4 inválido',
+          PagoIdInvalidoError,
         );
       });
     });

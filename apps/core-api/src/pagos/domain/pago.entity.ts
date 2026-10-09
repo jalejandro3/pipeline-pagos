@@ -2,6 +2,13 @@ import { randomUUID } from 'node:crypto';
 import { PagoStatus } from './pago-status';
 import { DomainEvent } from './events/domain-event';
 import { PagoInicializado } from './events/pago-inicializado.event';
+import {
+  PagoIdInvalidoError,
+  PagoDetailInvalidoError,
+  PagoAmountInvalidoError,
+  PagoNegativeAmountError,
+  TransicionInvalidaError,
+} from './errors/pago.errors';
 
 const ALLOWED_TRANSITIONS: Readonly<Record<PagoStatus, PagoStatus[]>> = {
   [PagoStatus.PENDIENTE]: [PagoStatus.EN_PROCESO_PAGO, PagoStatus.FALLIDO],
@@ -100,29 +107,29 @@ export class Pago {
 
   private validarId(id: string): void {
     if (!UUID_V4_REGEX.test(id)) {
-      throw new Error('UUID v4 inválido');
+      throw new PagoIdInvalidoError(id);
     }
   }
 
   private validarDetail(detail: string) {
     if (detail.trim().length === 0) {
-      throw new Error('El pago debe tener un detail');
+      throw new PagoDetailInvalidoError();
     }
   }
 
   private validarAmount(amount: number): void {
     if (!Number.isFinite(amount)) {
-      throw new Error('El monto debe ser un número válido');
+      throw new PagoAmountInvalidoError();
     }
 
     if (amount <= 0) {
-      throw new Error('El monto no puede ser menor o igual a cero');
+      throw new PagoNegativeAmountError();
     }
   }
 
   private transicionarA(next: PagoStatus): void {
     if (!ALLOWED_TRANSITIONS[this.status].includes(next)) {
-      throw new Error(`Transicion no valida desde ${this.status} a ${next}`);
+      throw new TransicionInvalidaError(this.status, next);
     }
 
     this.status = next;

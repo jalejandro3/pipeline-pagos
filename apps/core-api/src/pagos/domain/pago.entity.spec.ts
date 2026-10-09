@@ -2,6 +2,13 @@ import { PagoMother } from '../../../test/mothers/pago.mother';
 import { Pago } from './pago.entity';
 import { PagoStatus } from './pago-status';
 import { PagoInicializado } from './events/pago-inicializado.event';
+import {
+  PagoIdInvalidoError,
+  PagoDetailInvalidoError,
+  PagoAmountInvalidoError,
+  PagoNegativeAmountError,
+  TransicionInvalidaError,
+} from './errors/pago.errors';
 
 describe('Pago', () => {
   let pago: Pago;
@@ -19,7 +26,7 @@ describe('Pago', () => {
           100,
           PagoStatus.EN_PROCESO_PAGO,
         ),
-      ).toThrow('UUID v4 inválido');
+      ).toThrow(PagoIdInvalidoError);
     });
   });
 
@@ -32,20 +39,22 @@ describe('Pago', () => {
           100,
           PagoStatus.EN_PROCESO_PAGO,
         ),
-      ).toThrow('El pago debe tener un detail');
+      ).toThrow(PagoDetailInvalidoError);
     });
   });
 
   describe('amount', () => {
+    it('pago con monto no finito arroja excepcion', () => {
+      expect(() => PagoMother.withAmount(NaN)).toThrow(PagoAmountInvalidoError);
+    });
+
     it('pago con monto igual a cero arroja excepcion', () => {
-      expect(() => PagoMother.withAmount(0)).toThrow(
-        'El monto no puede ser menor o igual a cero',
-      );
+      expect(() => PagoMother.withAmount(0)).toThrow(PagoNegativeAmountError);
     });
 
     it('pago con monto menor a cero arroja excepcion', () => {
       expect(() => PagoMother.withAmount(-100)).toThrow(
-        'El monto no puede ser menor o igual a cero',
+        PagoNegativeAmountError,
       );
     });
   });
@@ -73,13 +82,11 @@ describe('Pago', () => {
 
     it('reconstruir pago no registra eventos', () => {
       const pagoReconstruido = PagoMother.withStatus(PagoStatus.PAGADO);
-
       expect(pagoReconstruido.pullDomainEvents()).toEqual([]);
     });
 
     it('pullDomainEvents vacia los eventos registrados', () => {
       pago.pullDomainEvents();
-
       expect(pago.pullDomainEvents()).toEqual([]);
     });
   });
@@ -116,20 +123,14 @@ describe('Pago', () => {
 
     describe('trasiciones no permitidas', () => {
       it('pago transiciona de PENDIENTE a PAGADO arroja error', () => {
-        expect(() => pago.pagar()).toThrow(
-          'Transicion no valida desde PENDIENTE a PAGADO',
-        );
+        expect(() => pago.pagar()).toThrow(TransicionInvalidaError);
       });
       it('pago transiciona de EN_PROCESO_PAGO a FACTURADO arroja error', () => {
         const pagoEnProceso = PagoMother.withStatus(PagoStatus.EN_PROCESO_PAGO);
-        expect(() => pagoEnProceso.facturar()).toThrow(
-          'Transicion no valida desde EN_PROCESO_PAGO a FACTURADO',
-        );
+        expect(() => pagoEnProceso.facturar()).toThrow(TransicionInvalidaError);
       });
       it('pago transiciona de PENDIENTE a FINALIZADO arroja error', () => {
-        expect(() => pago.finalizar()).toThrow(
-          'Transicion no valida desde PENDIENTE a FINALIZADO',
-        );
+        expect(() => pago.finalizar()).toThrow(TransicionInvalidaError);
       });
     });
   });

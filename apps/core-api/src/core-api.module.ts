@@ -1,8 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CoreApiController } from './core-api.controller';
-import { CoreApiService } from './core-api.service';
 import { PagosModule } from './pagos/pagos.module';
 
 @Module({
@@ -23,7 +21,5 @@ import { PagosModule } from './pagos/pagos.module';
     }),
     PagosModule,
   ],
-  controllers: [CoreApiController],
-  providers: [CoreApiService],
 })
 export class CoreApiModule {}
