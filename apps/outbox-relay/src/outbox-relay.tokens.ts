@@ -1,0 +1,2 @@
+export const RABBITMQ_CHANNEL = Symbol('RABBITMQ_CHANNEL');
+export const EVENT_PUBLISHER = Symbol('EVENT_PUBLISHER');

@@ -36,6 +36,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/messaging/tsconfig.lib.json"
       }
+    },
+    "outbox-relay": {
+      "type": "application",
+      "root": "apps/outbox-relay",
+      "entryFile": "main",
+      "sourceRoot": "apps/outbox-relay/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/outbox-relay/tsconfig.app.json"
+      }
     }
   }
 }

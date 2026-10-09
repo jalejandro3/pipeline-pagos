@@ -1,0 +1,14 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "..",
+  "roots": ["<rootDir>/src"],
+  "testEnvironment": "node",
+  "testRegex": ".int-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "setupFiles": ["<rootDir>/test/integration/load-env.ts"],
+  "moduleNameMapper": {
+    "^@app/messaging(|/.*)$": "<rootDir>/../../libs/messaging/src/$1"
+  }
+}
