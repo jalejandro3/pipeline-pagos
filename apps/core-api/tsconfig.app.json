@@ -2,7 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
-    "rootDir": "./src",
+    "types": ["node"],
     "outDir": "../../dist/apps/core-api"
   },
   "include": ["src/**/*"],

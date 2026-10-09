@@ -17,14 +17,23 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./apps/pipeline-pagos/test/jest-e2e.json"
+    "test:e2e": "jest --config ./apps/pipeline-pagos/test/jest-e2e.json",
+    "test:int": "jest --config ./apps/core-api/test/jest-integration.json --runInBand"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^12.0.1",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/microservices": "^11.2.7",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/typeorm": "^12.0.1",
+    "amqp-connection-manager": "^5.0.0",
+    "amqplib": "^2.2.0",
+    "pg": "^8.23.0",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typeorm": "^1.1.1",
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -38,9 +47,11 @@
     "@types/supertest": "^7.0.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-jest": "^29.15.4",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^17.0.0",
     "jest": "^30.0.0",
+    "jest-mock-extended": "^4.0.1",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
@@ -68,7 +79,12 @@
     "coverageDirectory": "./coverage",
     "testEnvironment": "node",
     "roots": [
-      "<rootDir>/apps/"
-    ]
+      "<rootDir>/apps/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "^@app/messaging(|/.*)$": "<rootDir>/libs/messaging/src/$1",
+      "^@test/(.*)$": "<rootDir>/apps/core-api/test/$1"
+    }
   }
 }

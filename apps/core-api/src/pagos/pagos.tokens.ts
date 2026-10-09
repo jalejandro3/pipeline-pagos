@@ -1,0 +1,2 @@
+export const PAGO_REPOSITORY = Symbol('PAGO_REPOSITORY');
+export const RABBITMQ_CHANNEL = Symbol('RABBITMQ_CHANNEL');

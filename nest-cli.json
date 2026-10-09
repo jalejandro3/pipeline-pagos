@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/pipeline-pagos/src",
+  "sourceRoot": "apps/core-api/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/pipeline-pagos/tsconfig.app.json"
+    "tsConfigPath": "apps/core-api/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/pipeline-pagos",
+  "root": "apps/core-api",
   "projects": {
     "bff": {
       "type": "application",
@@ -26,6 +26,15 @@
       "sourceRoot": "apps/core-api/src",
       "compilerOptions": {
         "tsConfigPath": "apps/core-api/tsconfig.app.json"
+      }
+    },
+    "messaging": {
+      "type": "library",
+      "root": "libs/messaging",
+      "entryFile": "index",
+      "sourceRoot": "libs/messaging/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/messaging/tsconfig.lib.json"
       }
     }
   }
