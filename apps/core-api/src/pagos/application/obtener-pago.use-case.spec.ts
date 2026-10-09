@@ -2,6 +2,7 @@ import { mock, MockProxy } from 'jest-mock-extended';
 import { ObtenerPago } from './obtener-pago.use-case';
 import { PagoRepository } from '../domain/pago.repository';
 import { PagoMother } from '../../../test/mothers/pago.mother';
+import { PagoNotFoundError } from '../domain/errors/pago.errors';
 
 describe('ObtenerPago', () => {
   let pagoRepository: MockProxy<PagoRepository>;
@@ -31,7 +32,7 @@ describe('ObtenerPago', () => {
 
     pagoRepository.findById.mockResolvedValue(null);
 
-    await expect(obtenerPago.execute(id)).rejects.toThrow('Pago no existe');
+    await expect(obtenerPago.execute(id)).rejects.toThrow(PagoNotFoundError);
 
     expect(pagoRepository.findById).toHaveBeenCalledWith(id);
   });

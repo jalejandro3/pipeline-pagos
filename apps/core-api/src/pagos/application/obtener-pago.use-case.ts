@@ -1,3 +1,4 @@
+import { PagoNotFoundError } from '../domain/errors/pago.errors';
 import { Pago } from '../domain/pago.entity';
 import { PagoRepository } from '../domain/pago.repository';
 
@@ -8,7 +9,7 @@ export class ObtenerPago {
     const pago = await this.pagoRepository.findById(id);
 
     if (pago == null) {
-      throw new Error('Pago no existe');
+      throw new PagoNotFoundError(id);
     }
 
     return pago;
